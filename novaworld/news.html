@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Journal - NovaWorld RP</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #1a1a1a;
+      margin: 0;
+      padding: 40px;
+      color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .journal {
+      background: url('https://media.istockphoto.com/id/1471298765/fr/photo/texture-de-papier-artisanal-recycl%C3%A9-blanc-en-arri%C3%A8re-plan-mat%C3%A9riau-de-texture-de-papier-gris.jpg?s=612x612&w=0&k=20&c=gV643bd59Y8Q61wy0gSKYfy0DpIR5v9vm072TOrIuXo=') no-repeat center center/cover;
+      width: 1200px;
+      padding: 50px;
+      box-shadow: 0 35px 60px rgba(0,0,0,0.8);
+      border-radius: 20px;
+      transform: perspective(900px) rotateX(3deg) rotateY(-3deg);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-blend-mode: multiply;
+      color: #111;
+    }
+
+    .journal:hover {
+      transform: perspective(900px) rotateX(0deg) rotateY(0deg) scale(1.01);
+      box-shadow: 0 45px 80px rgba(0,0,0,0.9);
+    }
+
+    .weazel-logo {
+      width: 250px;
+      margin-bottom: 20px;
+    }
+
+    .journal h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 0 #fff;
+      border-bottom: 3px solid #eeff00;
+      padding-bottom: 10px;
+    }
+
+    .content {
+      font-size: 1.3em;
+      line-height: 1.7em;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .media {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .media img, .media video, .media iframe {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 8px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+    }
+
+    .author {
+      text-align: right;
+      font-style: italic;
+      margin-top: 25px;
+      font-size: 1.1em;
+    }
+
+    .edit-btn {
+      margin-top: 35px;
+      background: #eeff00;
+      border: none;
+      padding: 12px 25px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #eeff00;
+    }
+
+    .edit-mode {
+      margin-top: 30px;
+      width: 1200px;
+      background: #2c2c2c;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .edit-mode textarea, .edit-mode input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 1em;
+    }
+
+    .edit-mode button {
+      padding: 10px 20px;
+      background: #eeff00;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px #eeff00;
+    }
+
+    .retour-texte {
+      align-self: flex-start;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      text-shadow: 0 0 5px #1b1b1b;
+      transition: opacity 0.2s ease;
+    }
+    .retour-texte:hover {
+      opacity: 0.7;
+    }
+
+    .zoom-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  cursor: zoom-out;
+}
+
+.zoom-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+  transform: scale(1.05);
+}
+
+
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="retour-texte">← Retour</a>
+
+<div class="journal" id="journalBox">
+  <img src="https://static.wikia.nocookie.net/failyv/images/0/0a/WeazelNews_Logo.png/revision/latest?cb=20220926112502&path-prefix=fr" alt="Weazel News" class="weazel-logo">
+  <h1 id="journalTitle">🚨 Braquage à Los Santos !</h1>
+  <div class="content" id="journalContent">
+    Un groupe armé a pris d'assaut une banque ce matin. La police est intervenue rapidement mais les suspects ont pris la fuite.
+  </div>
+  <div class="media" id="journalMedia">
+    <img src="https://i.imgur.com/1c7gE3A.jpg" alt="Actu RP">
+  </div>
+  <div class="author" id="journalAuthor">Par NovaWorld News</div>
+  <div id="viewCounter" style="margin-top: 25px; font-weight: bold;"></div>
+  <button id="editBtn" class="edit-btn" style="display:none;" onclick="toggleEdit()">✏️ Modifier le journal</button>
+</div>
+
+<div id="editForm" class="edit-mode" style="display:none;">
+  <input type="text" id="inputTitle" placeholder="Titre du journal">
+  <textarea id="inputContent" placeholder="Contenu du journal"></textarea>
+  <input type="text" id="inputMedia" placeholder="Lien image ou vidéo (YouTube ou .mp4)">
+  <input type="text" id="inputAuthor" placeholder="Nom de l’auteur">
+  <button onclick="saveJournal()">✅ Enregistrer</button>
+</div>
+
+<div class="zoom-overlay" id="zoomOverlay" onclick="closeZoom()">
+  <img id="zoomedImage" src="" alt="Zoom Journal">
+</div>
+
+
+<script>
+  function toggleEdit() {
+    const form = document.getElementById("editForm");
+    form.style.display = form.style.display === "none" ? "block" : "none";
+  }
+  
+  function resetViews() {
+    localStorage.removeItem("viewCount");
+    localStorage.removeItem("viewedIPs");
+    document.getElementById("viewCounter").textContent = `👁️ Vues : 0`;
+  }
+  
+  async function sendWebhook(title) {
+    const webhookURL = "https://discord.com/api/webhooks/1358458909500899649/yViQHc-MXPo_LYXV3ZSfLlreKL9l-1Do5cYtdnsXqmIWXiwH4bmxUs8_fwGjScHEl5hQ";
+    const journalLink = "https://ton-site.com/journal.html"; // 🔗 Remplace par ton lien
+  
+    const payload = {
+      content: `📰 Un nouveau journal a été publié : **${title}**\n🔗 Lire le journal ici : ${journalLink}`
+    };
+  
+    try {
+      await fetch(webhookURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch (error) {
+      console.error("Erreur envoi webhook :", error);
+    }
+  }
+  
+  function saveJournal() {
+    const title = document.getElementById("inputTitle").value;
+    const content = document.getElementById("inputContent").value;
+    const media = document.getElementById("inputMedia").value;
+    const author = document.getElementById("inputAuthor").value;
+  
+    document.getElementById("journalTitle").textContent = title;
+    document.getElementById("journalContent").textContent = content;
+    document.getElementById("journalAuthor").textContent = "Par " + author;
+  
+    const mediaBox = document.getElementById("journalMedia");
+  
+    if (media.includes("youtube.com") || media.includes("youtu.be")) {
+      const videoId = media.includes("watch?v=")
+        ? media.split("watch?v=")[1]
+        : media.split("/").pop();
+      mediaBox.innerHTML = `<iframe width="100%" height="300" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+    } else if (media.endsWith(".mp4")) {
+      mediaBox.innerHTML = `<video src="${media}" controls></video>`;
+    } else {
+      mediaBox.innerHTML = `<img src="${media}" alt="media" class="bw">`;
+    }
+  
+    localStorage.setItem("journalTitle", title);
+    localStorage.setItem("journalContent", content);
+    localStorage.setItem("journalAuthor", author);
+    localStorage.setItem("journalMedia", media);
+  
+    resetViews();
+    sendWebhook(title);
+  
+    alert("Journal mis à jour !");
+  }
+  </script>
+  
+<script
+window.onload = () => {
+  const isLoggedIn = localStorage.getItem("connected") === "true";
+  if (isLoggedIn) {
+    document.getElementById("editBtn").style.display = "inline-block";
+  }
+
+  const savedTitle = localStorage.getItem("journalTitle");
+  const savedContent = localStorage.getItem("journalContent");
+  const savedMedia = localStorage.getItem("journalMedia");
+  const savedAuthor = localStorage.getItem("journalAuthor");
+
+  if (savedTitle) document.getElementById("journalTitle").textContent = savedTitle;
+  if (savedContent) document.getElementById("journalContent").textContent = savedContent;
+  if (savedAuthor) document.getElementById("journalAuthor").textContent = "Par " + savedAuthor;
+
+  const mediaBox = document.getElementById("journalMedia");
+  if (savedMedia) {
+    if (savedMedia.includes("youtube.com") || savedMedia.includes("youtu.be")) {
+      const videoId = savedMedia.includes("watch?v=") ? savedMedia.split("watch?v=")[1] : savedMedia.split("/").pop();
+      mediaBox.innerHTML = `<iframe width="100%" height="300" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+    } else if (savedMedia.endsWith(".mp4")) {
+      mediaBox.innerHTML = `<video src="${savedMedia}" controls></video>`;
+    } else {
+      mediaBox.innerHTML = `<img src="${savedMedia}" alt="media" class="bw">`;
+    }
+  }
+}
+
+async function getUserIP() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error('Erreur IP :', error);
+    return null;
+  }
+}
+
+async function updateViewCount() {
+  const ip = await getUserIP();
+  if (!ip) return;
+
+  const viewedIPs = JSON.parse(localStorage.getItem("viewedIPs") || "[]");
+  let views = parseInt(localStorage.getItem("viewCount") || "0");
+
+  if (!viewedIPs.includes(ip)) {
+    views++;
+    viewedIPs.push(ip);
+    localStorage.setItem("viewedIPs", JSON.stringify(viewedIPs));
+    localStorage.setItem("viewCount", views);
+  }
+
+  document.getElementById("viewCounter").textContent = `👁️ Vues : ${views}`;
+}
+
+window.addEventListener("DOMContentLoaded", updateViewCount);
+</script>
+
+<script>
+  const journalImg = document.querySelector('#journalMedia img');
+  const zoomOverlay = document.getElementById('zoomOverlay');
+  const zoomedImage = document.getElementById('zoomedImage');
+
+  journalImg.addEventListener('click', (e) => {
+    e.stopPropagation(); // empêche la fermeture immédiate
+    zoomedImage.src = journalImg.src;
+    zoomOverlay.style.display = 'flex';
+  });
+
+  function closeZoom() {
+    zoomOverlay.style.display = 'none';
+    zoomedImage.src = '';
+  }
+</script>
+
+
+</body>
+</html>
