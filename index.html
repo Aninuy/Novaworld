@@ -958,35 +958,42 @@
 
   <script>
     // Stocke la liste des joueurs connus
-let lastPlayers = [];
-
+    let lastPlayers = [];
 
 function updatePlayerCount() {
-  fetch('https://servers-frontend.fivem.net/api/servers/single/7zb66b')
+  fetch('https://servers-frontend.fivem.net/api/servers/single/7zva4b')
     .then(response => response.json())
     .then(data => {
-      if (data && data.Data && data.Data.players) {
-        const players = data.Data.players;
-        const playerCount = players.length;
-        const maxSlots = data.Data.vars && data.Data.vars.sv_maxClients ? parseInt(data.Data.vars.sv_maxClients) : 400;
-        document.getElementById('onlineCount').textContent = playerCount + ' / ' + maxSlots;
+      const players = data?.Data?.clients;
+      const maxPlayers = data?.Data?.sv_maxclients;
 
-        // Vérifie les nouveaux joueurs pour afficher une notification
-        const newPlayers = players.filter(p => !lastPlayers.some(lp => lp.name === p.name));
-if (newPlayers.length > 0) {
-  const lastNew = newPlayers[newPlayers.length - 1];
-  if (lastNew && lastNew.name) {
-    notifyConnection(lastNew.name);
-  }
-}
-// Met à jour la liste
-        lastPlayers = players;
+      if (typeof players === 'number' && typeof maxPlayers === 'number') {
+        document.getElementById('onlineCount').textContent = `${players} / ${maxPlayers}`;
+
+        // Gestion notifications joueurs connectés
+        const currentPlayers = data?.Data?.players || [];
+        const newPlayers = currentPlayers.filter(p => !lastPlayers.some(lp => lp.name === p.name));
+        if (newPlayers.length > 0) {
+          const lastNew = newPlayers[newPlayers.length - 1];
+          if (lastNew?.name) {
+            notifyConnection(lastNew.name);
+          }
+        }
+        lastPlayers = currentPlayers;
+      } else {
+        document.getElementById('onlineCount').textContent = `Serveur indisponible`;
       }
     })
     .catch((error) => {
-      console.warn('Impossible de récupérer le nombre de joueurs FiveM :', error);
+      console.warn('Erreur API FiveM :', error);
+      document.getElementById('onlineCount').textContent = `Erreur serveur`;
     });
 }
+
+// Démarrage auto + toutes les 10 secondes
+updatePlayerCount();
+setInterval(updatePlayerCount, 10000);
+
 
 const teamCards = document.querySelectorAll('.team-card');
 
