@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaWorld RP - GTA V Roleplay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-blue: #eeff00;
+      --neon-glow: #eeff00;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: url('https://c4.wallpaperflare.com/wallpaper/712/51/802/core-roleplay-grand-theft-auto-grand-theft-auto-v-roleplaying-fivem-hd-wallpaper-preview.jpg') no-repeat center center/cover;
+      backdrop-filter: blur(8px);
+      color: white;
+      overflow-x: hidden;
+      text-align: center;
+    }
+    .main-content {
+      transition: filter 0.3s;
+    }
+    .blurred {
+      filter: blur(6px) brightness(0.8);
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 15px var(--neon-glow);
+      animation: fadeInDown 1s ease forwards;
+    }
+    nav a {
+  color: var(--neon-blue);
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+  transition: transform 0.3s;
+}
+
+    nav a:hover {
+      transform: scale(1.1);
+    }
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      padding: 50px;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease forwards;
+    }
+    .hero-text {
+      max-width: 600px;
+      animation: popIn 1s ease forwards;
+    }
+    .hero-text h1 {
+      font-size: 2.5em;
+      color: var(--neon-blue);
+      text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+      animation: neonGlow 2s ease-in-out infinite alternate;
+    }
+    .hero-text h2 {
+      font-size: 2em;
+      color: #fff;
+      text-shadow: 0 0 10px var(--neon-blue);
+    }
+    .hero-text p {
+      margin-top: 20px;
+      line-height: 1.5em;
+      text-shadow: 0 0 5px var(--neon-blue);
+    }
+    .server-info {
+      margin-top: 30px;
+      background: rgba(15, 15, 15, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 50px var(--neon-glow);
+      animation: popIn 1.2s ease forwards;
+    }
+    .ip-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      border-radius: 8px;
+    }
+    .ip-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--neon-blue);
+      border-radius: 8px;
+      transition: transform 0.6s ease;
+      transform-origin: left;
+      z-index: 2;
+    }
+    .ip-wrapper:hover .ip-mask {
+      transform: scaleX(0);
+    }
+    .download-button {
+      margin-top: 20px;
+      background-color: var(--neon-blue);
+      padding: 15px 30px;
+      color: black;
+      border: none;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--neon-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: popIn 1.2s ease forwards;
+    }
+    .download-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px var(--neon-glow);
+    }
+    .characters {
+      max-width: 400px;
+      animation: floatUpDown 3s ease-in-out infinite, fadeInUp 1s ease forwards;
+    }
+    .characters img {
+      width: 100%;
+      filter: drop-shadow(0 0 15px var(--neon-glow));
+    }
+    @keyframes neonGlow {
+      from {
+        text-shadow: 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow), 0 0 30px var(--neon-glow);
+      }
+      to {
+        text-shadow: 0 0 20px var(--neon-glow), 0 0 30px var(--neon-glow), 0 0 40px var(--neon-glow);
+      }
+    }
+    @keyframes floatUpDown {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .teams {
+      margin: 50px auto;
+      animation: fadeInUp 1.2s ease forwards;
+    }
+    .teams h2 {
+      margin-bottom: 20px;
+      text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+      font-size: 2em;
+    }
+    .team-cards {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .team-card {
+      width: 250px;
+      height: 350px;
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 15px var(--neon-glow);
+      overflow: hidden;
+      transition: transform 0.3s;
+      animation: popIn 1s ease forwards;
+    }
+    .team-card:hover {
+      transform: scale(1.05);
+    }
+    .team-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .footer {
+      margin: 20px 0;
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 0 5px var(--neon-blue);
+      font-weight: bold;
+      animation: fadeInUp 1s ease forwards;
+    }
+    .donations {
+      display: flex;
+      justify-content: center;
+      margin: 50px auto;
+      animation: fadeInUp 1.2s ease forwards;
+    }
+    .donations-container {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 12px;
+      padding: 30px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 0 15px var(--neon-glow);
+      text-align: center;
+      animation: popIn 1s ease forwards;
+    }
+    .donations-container h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+    }
+    .donations-container p {
+      font-size: 1.1em;
+      line-height: 1.6em;
+      margin-bottom: 25px;
+    }
+    .donate-button {
+      background-color: var(--neon-blue);
+      color: black;
+      padding: 15px 40px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--neon-glow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .donate-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--neon-glow);
+    }
+    .founders {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      margin: 50px 0;
+      animation: fadeInUp 1.3s ease forwards;
+    }
+    .founders h2 {
+      margin-bottom: 20px;
+      text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+      font-size: 2em;
+      animation: popIn 1s ease forwards;
+    }
+    .founder {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      animation: drift 8s ease-in-out infinite;
+      box-shadow: 0 0 15px var(--neon-glow);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .founder:hover {
+      transform: scale(1.1);
+      animation-play-state: paused;
+      z-index: 10;
+    }
+
+    .founders:hover .founder:not(:hover) {
+      transform: translate(0, 0);
+      transition: transform 0.5s ease;
+    }
+
+    .founders:hover .founder:not(:hover) {
+      filter: bur(6px);
+    }
+    .founder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .founder .pseudo {
+      display: none;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    .founder:hover .pseudo {
+      display: block;
+    }
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(-15px, -15px);
+      }
+      50% {
+        transform: translate(15px, -15px);
+      }
+      75% {
+        transform: translate(-15px, 15px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 99999;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: #111;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 15px var(--neon-glow);
+      animation: popIn 0.5s ease forwards;
+    }
+    .modal h3 {
+      margin-bottom: 15px;
+      font-size: 1.5em;
+      text-shadow: 0 0 5px var(--neon-blue);
+    }
+    .modal p {
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .close-modal {
+      background-color: var(--neon-blue);
+      color: black;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--neon-blue);
+      transition: transform 0.2s;
+    }
+    .close-modal:hover {
+      transform: scale(1.05);
+    }
+    .team-card-1 {
+      background: linear-gradient(45deg, red, green);
+      animation: pulseRG 2s infinite alternate;
+    }
+    @keyframes pulseRG {
+      0% {
+        box-shadow: 0 0 10px red;
+      }
+      100% {
+        box-shadow: 0 0 30px #008000;
+      }
+    }
+    .team-card-2 {
+      background: linear-gradient(45deg, #ffc400, #fbff00);
+      animation: pulseBlue 2s infinite alternate;
+    }
+    @keyframes pulseBlue {
+      0% {
+        box-shadow: 0 0 10px #ffc400;
+      }
+      100% {
+        box-shadow: 0 0 30px #fbff00;
+      }
+    }
+    .team-card-red {
+      background: linear-gradient(45deg, #660000, red);
+      animation: pulseRed 2s infinite alternate;
+    }
+    @keyframes pulseRed {
+      0% {
+        box-shadow: 0 0 10px red;
+      }
+      100% {
+        box-shadow: 0 0 30px red;
+      }
+    }
+    .team-card-green {
+      background: linear-gradient(45deg, #004400, green);
+      animation: pulseGreen 2s infinite alternate;
+    }
+    @keyframes pulseGreen {
+      0% {
+        box-shadow: 0 0 10px green;
+      }
+      100% {
+        box-shadow: 0 0 30px green;
+      }
+    }
+    .team-card-blue {
+      background: linear-gradient(45deg, #0011ff, #00aaff);
+      animation: pulseBlue 2s infinite alternate;
+    }
+    @keyframes pulseBlue {
+      0% {
+        box-shadow: 0 0 10px #0011ff;
+      }
+      100% {
+        box-shadow: 0 0 30px #00aaff;
+      }
+    }
+    .team-card.selected {
+      outline: 3px solid rgb(255, 196, 0);
+      transform: scale(1.1) !important;
+    }
+    .online-playercount {
+      font-size: 1.6em;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      margin: 10px 0;
+    }
+    .online-playercount .label {
+      font-size: 1.2em;
+      margin-right: 8px;
+    }
+    .green-dot {
+      width: 14px;
+      height: 14px;
+      background-color: limegreen;
+      border-radius: 50%;
+      box-shadow: 0 0 8px limegreen;
+      animation: blinkDot 1.5s infinite;
+    }
+    @keyframes blinkDot {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+    #onlineCount {
+      font-weight: bold;
+      text-shadow: 0 0 5px var(--neon-blue);
+    }
+    .vote-button {
+      display: inline-block;
+      margin-left: 15px;
+      background-color: var(--neon-blue);
+      padding: 15px 30px;
+      color: black;
+      border: none;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--neon-glow);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .vote-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px var(--neon-glow);
+    }
+    #notification-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .notification {
+      background: rgba(0,0,0,0.8);
+      border: 1px solid #444;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      min-width: 200px;
+      text-align: left;
+      animation: popIn 0.5s ease forwards;
+    }
+    .notification p {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .time-bar {
+      height: 4px;
+      background-color: var(--neon-blue);
+      border-radius: 2px;
+      width: 100%;
+      margin-top: 5px;
+      transition: width 0.1s linear;
+    }
+
+
+    .founder-bypepsi {
+  box-shadow: 0 0 15px #ff98d4;
+}
+.founder-bypepsi:hover {
+  box-shadow: 0 0 30px #ff98d4, 0 0 40px #ff98d4;
+}
+
+.founder-rayane {
+  box-shadow: 0 0 15px #6e6a4e;
+}
+.founder-rayane:hover {
+  box-shadow: 0 0 30px #6e6a4e, 0 0 40px #6e6a4e;
+}
+
+.founder-huygo {
+  box-shadow: 0 0 15px #ac9f90;
+}
+.founder-huygo:hover {
+  box-shadow: 0 0 30px #ac9f90, 0 0 40px #ac9f90;
+}
+
+.founder-remy {
+  box-shadow: 0 0 15px #27292c;
+}
+.founder-remy:hover {
+  box-shadow: 0 0 30px #27292c, 0 0 40px #27292c;
+}
+
+.founder-lucas {
+  box-shadow: 0 0 15px #eeb136;
+}
+
+.founder-lucas:hover {
+  box-shadow: 0 0 30px #eeb136, 0 0 40px #eeb136;
+}
+
+.founder-jojo {
+  box-shadow: 0 0 15px #9001c9;
+}
+
+.founder-jojo:hover {
+  box-shadow: 0 0 30px #9001c9, 0 0 40px #9001c9;
+}
+
+.founder-nexo {
+  box-shadow: 0 0 15px #ada8af;
+}
+
+.founder-nexo:hover {
+  box-shadow: 0 0 30px #ada8af, 0 0 40px #ada8af;
+}
+
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.server-info {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.download-button,
+.vote-button {
+  margin: 0 auto;
+  width: 250px;
+}
+
+
+.team-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: skewX(-25deg);
+  animation: reflet 2s ease-in-out infinite;
+}
+
+.team-card:hover::before {
+  animation-play-state: paused;
+}
+
+@keyframes reflet {
+  0% {
+    left: -150%;
+  }
+  50% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+.goat-banner {
+  position: fixed;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0,0,0,0.9);
+  color: var(--neon-blue);
+  padding: 15px 0;
+  font-size: 2em;
+  text-shadow: 0 0 15px var(--neon-glow);
+  z-index: 10000;
+  transition: top 0.5s ease-in-out;
+  pointer-events: none;
+}
+
+.goat-banner.active {
+  top: 0;
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+}
+
+.popup-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 900px;
+  width: 90%;
+  background: rgba(0,0,0,0.9);
+  padding: 25px;
+  gap: 20px;
+  border-radius: 15px;
+  animation: fadeIn 0.4s ease;
+}
+
+.popup-img {
+  width: 50%;
+  border-radius: 10px;
+}
+
+.popup-desc {
+  color: #fff;
+  font-size: 1.2em;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 2.5em;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.popup-close:hover {
+  transform: scale(1.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+
+.login-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 1em;
+}
+#loginMessage {
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 5px var(--neon-glow);
+}
+
+.user-menu {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--neon-glow);
+    display: none;
+    flex-direction: column;
+    padding: 10px;
+    z-index: 10000;
+  }
+  .user-menu button {
+    background: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+  .user-menu button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+
+</style>
+</head>
+<body>
+  <div class="main-content">
+    <header>
+      <img src="logorp.png" alt="Logo Malestia RP" height="70">
+      <nav>
+        <a href="forum.html">Forum</a>
+        <a href="https://discord.gg/YrRztU6HBt" target="_blank">Discord</a>
+        <a href="news.html">News</a>
+        <a href="#">Jouer</a>
+        <a href="#" id="loginBtn" onclick="openLoginPopup()" style="background-color:var(--neon-blue); padding: 10px 20px; border-radius: 6px; color:black; box-shadow: 0 0 10px var(--neon-blue);">Se Connecter</a>
+        <img id="userPdp" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Utilisateur" style="display:none; height: 45px; width: 45px; border-radius: 50%; box-shadow: 0 0 10px var(--neon-glow); cursor:pointer;">
+      </nav>      
+    </header>
+        
+        <!-- ✅ Menu utilisateur en-dehors du <nav> -->
+<!-- À GARDER : menu en-dehors du <nav> -->
+  <div class="user-menu" id="userMenu">
+    <button onclick="alert('Profil prochainement disponible')">Mon Profil</button>
+    <button onclick="logout()">Déconnexion</button>
+  </div>
+  
+        
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const userPdp = document.getElementById('userPdp');
+    const userMenu = document.getElementById('userMenu');
+  
+    function logout() {
+      userPdp.style.display = "none";
+      loginBtn.style.display = "inline-block";
+      userMenu.style.display = "none";
+    }
+  
+    userPdp.addEventListener("click", () => {
+      userMenu.style.display = userMenu.style.display === "flex" ? "none" : "flex";
+    });
+  
+    // Cacher le menu si on clique en dehors
+    document.addEventListener("click", function(event) {
+      if (!userMenu.contains(event.target) && !userPdp.contains(event.target)) {
+        userMenu.style.display = "none";
+      }
+    });
+  </script>
+  
+      </nav>
+    </header>
+
+
+    <div class="hero">
+      <div class="hero-text">
+        <h1>GRAND THEFT AUTO V</h1>
+        <h2>NovaWorld RP</h2>
+        <p>
+          Rejoignez notre communauté et venez jouer sur notre serveur pour une expérience de roleplay incroyable !
+          Notre serveur propose un système de chat vocal intégré, des scripts avancés et de nombreuses fonctionnalités,
+          ainsi qu'une administration active, amicale et dévouée. Avec des centaines de joueurs en ligne et une variété
+          d'activités et d'événements communautaires à grande échelle, vous ne vous sentirez jamais seul ni ennuyé dans
+          l'immense, mais superbe et animée, San Andreas !
+        </p>
+        <div class="server-info">
+          <div class="online-playercount">
+            <span class="label">EN LIGNE</span>
+            <span class="green-dot"></span>
+            <span id="onlineCount">5 / 64</span>
+          </div>
+          <p><strong>IP DU SERVEUR :</strong>
+            <span class="ip-wrapper">
+              <span class="ip-mask"></span>
+              <span style="position: relative; z-index: 1;">Connect 83.150.218.5:30113</span>
+            </span>
+          </p>
+        </div>
+      
+        <div class="buttons-container">
+          <button class="download-button">Télécharger & Jouer</button>
+          <a href="https://top-serveurs.net/gta/vote/frqcbe-novaworld-rp-free-access-rejoins-nous" class="vote-button" target="_blank">Voter sur Top-Serveurs</a>
+        </div>
+      </div>
+      
+      <div class="characters">
+      </div>
+    </div>
+
+    <div class="team-cards">
+      <div class="team-card team-card-red" data-team="crime">
+        <img src="illegal.jpg" alt="Crime" />
+      </div>
+      <div class="team-card team-card-green" data-team="legal">
+        <img src="légal.jpg" alt="Légal" />
+      </div>
+      <div class="team-card team-card-blue" data-team="civil">
+        <img src="civile.jpg" alt="Civil" />
+      </div>
+    </div>
+    
+    
+    
+    
+    
+
+    <section class="donations">
+      <div class="donations-container">
+        <h2>Soutenir le Projet</h2>
+        <p>
+          Aidez-nous à maintenir et à améliorer continuellement le serveur en réalisant un don.
+          Chaque contribution nous permet de proposer de nouvelles fonctionnalités, de nouveaux événements,
+          et un service de meilleure qualité pour la communauté. Merci pour votre soutien !
+        </p>
+        <button class="donate-button paypal-button" style="display: inline-flex; align-items: center; justify-content: center;">
+          <img src="https://www.paypalobjects.com/webstatic/icon/pp72.png" alt="PayPal" style="height: 24px; width: auto; margin-right: 8px; vertical-align: middle;" />
+          Faire un Don
+        </button>
+      </div>
+    </section>
+
+    <section class="founders">
+      <h2>Équipe NovaWorld - RP :</h2>
+      <div class="founder founder-bypepsi" style="left:10%; top:50%; animation-delay: 0s;">
+        <img src="https://cdn.discordapp.com/avatars/1216407221424881664/cbd3a5c399c50b52e3b7951b858e1e24.webp?size=128" alt="Bypepsi">
+        <div class="pseudo">Bypepssi</div>
+      </div>
+      <div class="founder founder-rayane" style="left:30%; top:40%; animation-delay: 1s;">
+        <img src="https://cdn.discordapp.com/avatars/1121102541640454164/ae023c57a4c23a7458a3e92d1d5d75b2.webp?size=128" alt="Rayane">
+        <div class="pseudo">Rayane</div>
+      </div>
+      <div class="founder founder-huygo" style="left:50%; top:55%; animation-delay: 2s;">
+        <img src="https://cdn.discordapp.com/avatars/964595777169150013/1860505453e8af205f6187725bd5faaf.webp?size=128" alt="Huygo">
+        <div class="pseudo">Huygo</div>
+      </div>
+      <div class="founder founder-remy" style="left:70%; top:45%; animation-delay: 3s;">
+        <img src="https://cdn.discordapp.com/avatars/830739669171568641/9d676a10001ab5d6b83acb997fcf4269.webp?size=128" alt="Rémy">
+        <div class="pseudo">Rémy</div>
+      </div>
+      <div class="founder founder-lucas" style="left:85%; top:50%; animation-delay: 4s;">
+        <img src="https://cdn.discordapp.com/avatars/837985821612703804/327d94f43135a5bfc7c7fbfde8a0a497.webp?size=128" alt="Lucas">
+        <div class="pseudo">Lucas</div>
+      </div>
+      <div class="founder founder-nexo" style="left:20%; top:60%; animation-delay: 5s;">
+        <img src="https://cdn.discordapp.com/avatars/1059182475701649489/8df810b59264b0527b03ce51b7ace689.webp?size=128" alt="Nexo">
+        <div class="pseudo">Nexo</div>
+      </div>
+      <div class="founder founder-jojo" style="left:60%; top:60%; animation-delay: 6s;">
+        <img src="https://cdn.discordapp.com/avatars/696855702966108192/a_97aa4392c3a3e78a076e6948e3657e29.webp?size=128" alt="Jojo">
+        <div class="pseudo">Jojo</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2025 Malestia RP</p>
+    </footer>
+  </div>
+
+  <div class="modal-overlay" id="donationModal">
+    <div class="modal">
+      <h3>Avant de faire ton Don !</h3>
+      <p>
+        Pour tout don à partir de 10€, vous pouvez gagner des récompenses.
+        Montrez votre preuve de don sur notre Discord pour en bénéficier !
+      </p>
+      <button class="close-modal" id="closeModalBtn">OK</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <h3>Connexion</h3>
+      <input type="text" id="loginUsername" placeholder="Identifiant" class="login-input" />
+      <input type="password" id="loginPassword" placeholder="Mot de passe" class="login-input" />
+      <button class="donate-button" onclick="validateLogin()">Se connecter</button>
+      <p id="loginMessage" style="margin-top: 10px;"></p>
+    </div>
+  </div>
+  
+
+  <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;"></canvas>
+
+  <div id="notification-container"></div>
+
+  <script>
+    // Stocke la liste des joueurs connus
+let lastPlayers = [];
+
+
+function updatePlayerCount() {
+  fetch('https://servers-frontend.fivem.net/api/servers/single/7zb66b')
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.Data && data.Data.players) {
+        const players = data.Data.players;
+        const playerCount = players.length;
+        const maxSlots = data.Data.vars && data.Data.vars.sv_maxClients ? parseInt(data.Data.vars.sv_maxClients) : 400;
+        document.getElementById('onlineCount').textContent = playerCount + ' / ' + maxSlots;
+
+        // Vérifie les nouveaux joueurs pour afficher une notification
+        const newPlayers = players.filter(p => !lastPlayers.some(lp => lp.name === p.name));
+if (newPlayers.length > 0) {
+  const lastNew = newPlayers[newPlayers.length - 1];
+  if (lastNew && lastNew.name) {
+    notifyConnection(lastNew.name);
+  }
+}
+// Met à jour la liste
+        lastPlayers = players;
+      }
+    })
+    .catch((error) => {
+      console.warn('Impossible de récupérer le nombre de joueurs FiveM :', error);
+    });
+}
+
+const teamCards = document.querySelectorAll('.team-card');
+
+teamCards.forEach(card => {
+  card.addEventListener('click', () => {
+    // Si déjà sélectionné, désactive l'effet
+    if (card.classList.contains('selected-team')) {
+      card.classList.remove('selected-team');
+      document.querySelector('.main-content').classList.remove('hidden');
+      document.querySelector('.teams').classList.remove('hidden');
+    } else {
+      teamCards.forEach(c => c.classList.remove('selected-team'));
+      card.classList.add('selected-team');
+      document.querySelector('.main-content').classList.add('hidden');
+      document.querySelector('.teams').classList.add('hidden');
+    }
+  });
+});
+
+
+
+// Met à jour automatiquement toutes les 15 secondes
+setInterval(updatePlayerCount, 5000);
+
+// Fait une première mise à jour immédiate
+updatePlayerCount();
+
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const ctx = confettiCanvas.getContext('2d');
+    let confettis = [];
+    let isAnimating = false;
+    let hasConfettiPlayed = false;
+    function resizeCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function createConfetti() {
+      const count = 80;
+      confettis = [];
+      for(let i = 0; i < count; i++) {
+        confettis.push({
+          x: Math.random() * confettiCanvas.width,
+          y: Math.random() * -500,
+          size: Math.random() * 7 + 4,
+          speedX: Math.random() * 2 - 1,
+          speedY: Math.random() * 3 + 2,
+          color: '#0077ff'
+        });
+      }
+    }
+    function renderConfetti() {
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confettis.forEach((confetti) => {
+        ctx.beginPath();
+        ctx.arc(confetti.x, confetti.y, confetti.size, 0, 2 * Math.PI);
+        ctx.fillStyle = confetti.color;
+        ctx.fill();
+        confetti.x += confetti.speedX;
+        confetti.y += confetti.speedY;
+      });
+    }
+    function animateConfetti() {
+      if(!isAnimating) return;
+      renderConfetti();
+      requestAnimationFrame(animateConfetti);
+    }
+    function runConfetti() {
+      createConfetti();
+      isAnimating = true;
+      animateConfetti();
+      setTimeout(() => {
+        isAnimating = false;
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }, 3000);
+    }
+
+    const bypepsiBubble = document.querySelector('.founder-bypepsi');
+const goatBanner = document.getElementById('goatBanner');
+
+bypepsiBubble.addEventListener('click', () => {
+  goatBanner.classList.add('active');
+
+  setTimeout(() => {
+    goatBanner.classList.remove('active');
+  }, 3000); // Message visible pendant 3 secondes
+});
+
+    
+    const donateBtn = document.querySelector('.donate-button');
+    const donationModal = document.getElementById('donationModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const mainContent = document.querySelector('.main-content');
+    function showModal() {
+      donationModal.classList.add('active');
+      mainContent.classList.add('blurred');
+    }
+    function hideModal() {
+      donationModal.classList.remove('active');
+      mainContent.classList.remove('blurred');
+    }
+    function handleDonateClick() {
+      if(!hasConfettiPlayed) {
+        runConfetti();
+        hasConfettiPlayed = true;
+      }
+      showModal();
+    }
+    function handleCloseModal() {
+      hideModal();
+    }
+    donateBtn.addEventListener('click', handleDonateClick);
+    closeModalBtn.addEventListener('click', handleCloseModal);
+  </script>
+
+  
+
+  <script>
+
+document.querySelectorAll('.team-card').forEach(card => {
+  card.addEventListener('click', function() {
+    const teamType = this.getAttribute('data-team');
+    let description = "";
+    let neonColor = "";
+
+    if(teamType === 'crime'){
+      description = "Rejoignez le monde de l'illégalité sur GTA RP et faites-vous un nom dans les rues de Los Santos. Braquages, vols, trafics et règlements de comptes feront partie de votre quotidien. Montrez aux autres gangs qui est le plus redoutable !";
+      neonColor = "red";
+    } else if(teamType === 'legal'){
+      description = "Rejoignez les forces légales sur GTA RP, incarnez les forces de l'ordre et protégez Los Santos. Luttez contre le crime, participez à des interventions à haut risque, et faites régner la justice dans la ville !";
+      neonColor = "lime";
+    } else if(teamType === 'civil'){
+      description = "Vivez une vie ordinaire à Los Santos sur GTA RP. Construisez votre histoire, faites des rencontres, participez à des événements, trouvez votre métier idéal, ou démarrez votre propre entreprise pour devenir une figure reconnue dans la ville.";
+      neonColor = "#0077ff";
+    }
+
+    const popupOverlay = document.createElement('div');
+    popupOverlay.className = 'popup-overlay';
+
+    const popupContent = document.createElement('div');
+    popupContent.className = 'popup-content';
+    popupContent.style.boxShadow = `0 0 30px ${neonColor}`;
+    popupContent.style.border = `3px solid ${neonColor}`;
+    popupContent.style.borderRadius = '15px';
+
+    const popupImg = document.createElement('img');
+    popupImg.src = this.querySelector('img').src;
+    popupImg.className = 'popup-img';
+
+    const popupDesc = document.createElement('div');
+    popupDesc.className = 'popup-desc';
+    popupDesc.textContent = description;
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'popup-close';
+    closeBtn.innerHTML = '&times;';  // X en HTML
+    closeBtn.style.color = neonColor;
+    closeBtn.style.textShadow = `0 0 15px ${neonColor}`;
+
+    closeBtn.addEventListener('click', () => {
+      document.body.removeChild(popupOverlay);
+    });
+
+    popupContent.appendChild(popupImg);
+    popupContent.appendChild(popupDesc);
+    popupContent.appendChild(closeBtn);
+    popupOverlay.appendChild(popupContent);
+
+    document.body.appendChild(popupOverlay);
+  });
+});
+
+
+  </script>
+  
+
+  
+  
+  <script>
+    function openLoginPopup() {
+      document.getElementById('loginModal').classList.add('active');
+      document.querySelector('.main-content').classList.add('blurred');
+    }
+    
+    function validateLogin() {
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      const message = document.getElementById('loginMessage');
+
+      if (username === "Novaworldrp" && password === "1234") {
+        message.style.color = "lime";
+        message.textContent = "Connexion réussie !";
+
+        // Sauvegarde dans localStorage
+        localStorage.setItem("connected", "true");
+
+        // Affiche la photo de profil et cache le bouton
+        setTimeout(() => {
+          document.getElementById('loginModal').classList.remove('active');
+          document.querySelector('.main-content').classList.remove('blurred');
+          document.getElementById('loginBtn').style.display = "none";
+          document.getElementById('userPdp').style.display = "inline-block";
+        }, 1500);
+
+      } else {
+        message.style.color = "red";
+        message.textContent = "Identifiants incorrects.";
+      }
+    }
+
+    function logout() {
+      userPdp.style.display = "none";
+      loginBtn.style.display = "inline-block";
+      userMenu.style.display = "none";
+      
+      // Supprime la donnée de connexion
+      localStorage.removeItem("connected");
+    }
+
+
+    </script>
+    
+    <script>
+      // Au chargement de la page, vérifier si l'utilisateur est déjà connecté
+      window.addEventListener("DOMContentLoaded", () => {
+        if (localStorage.getItem("connected") === "true") {
+          document.getElementById('loginBtn').style.display = "none";
+          document.getElementById('userPdp').style.display = "inline-block";
+        }
+      });
+    </script>
+    
+
+
+  <script>
+    function notifyConnection(pseudo) {
+      const container = document.getElementById('notification-container');
+      const notif = document.createElement('div');
+      notif.className = 'notification';
+      notif.innerHTML = `<p>${pseudo} vient de se connecter !</p><div class='time-bar'></div>`;
+      container.appendChild(notif);
+      let currentWidth = 100;
+      const interval = setInterval(() => {
+        currentWidth -= 1;
+        notif.querySelector('.time-bar').style.width = currentWidth + '%';
+        if (currentWidth <= 0) {
+          clearInterval(interval);
+          container.removeChild(notif);
+        }
+      }, 50);
+    }
+  </script>
+  
+
+<script>
+  // Désactiver le clic droit
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+  // Désactiver les touches (Ctrl+Shift+I, Ctrl+U, F12, etc.)
+  document.addEventListener('keydown', function (event) {
+    if (
+      event.keyCode == 123 || // F12
+      (event.ctrlKey && event.shiftKey && event.keyCode == 73) || // Ctrl+Shift+I
+      (event.ctrlKey && event.shiftKey && event.keyCode == 67) || // Ctrl+Shift+C
+      (event.ctrlKey && event.shiftKey && event.keyCode == 74) || // Ctrl+Shift+J
+      (event.ctrlKey && event.keyCode == 85) // Ctrl+U
+    ) {
+      event.preventDefault();
+    }
+  });
+</script>
+
+<audio id="click-audio" src="click.mp3" preload="auto"></audio>
+
+
+</body>
+</html>
