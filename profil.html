@@ -76,51 +76,6 @@
       transform: scale(1.05);
       box-shadow: 0 0 30px #eeff00;
     }
-    .widget-placeholder {
-      width: 100%;
-      height: 500px;
-      margin-top: 30px;
-      background: rgba(255, 165, 0, 0.1);
-      border-radius: 10px;
-      box-shadow: 0 0 30px orange;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      animation: pulse 2s infinite ease-in-out;
-    }
-    .widget-placeholder::after {
-      content: '';
-      position: absolute;
-      backdrop-filter: blur(8px);
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-    }
-    .widget-placeholder img {
-      width: 80px;
-      margin-bottom: 15px;
-      z-index: 1;
-      animation: bounce 1.5s infinite;
-      filter: drop-shadow(0 0 10px orange);
-    }
-    .widget-placeholder p {
-      color: orange;
-      font-size: 1.6em;
-      font-weight: bold;
-      z-index: 1;
-      text-shadow: 0 0 12px orange;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 10px orange; }
-      50% { box-shadow: 0 0 50px orange; }
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
     canvas {
       margin-top: 30px;
       max-width: 100%;
@@ -132,13 +87,69 @@
       background: rgba(255, 0, 0, 0.3) !important;
       box-shadow: 0 0 20px red !important;
     }
+    .recent-players-box {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #eeff00;
+      margin-top: 30px;
+      overflow-x: auto;
+    }
+    .recent-players-box h2 {
+      font-size: 1.6em;
+      margin-bottom: 15px;
+      color: #eeff00;
+      text-shadow: 0 0 8px #eeff00;
+      border-bottom: 2px solid #eeff00;
+      padding-bottom: 10px;
+    }
+    .recent-players-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+    }
+    .recent-players-table th,
+    .recent-players-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .recent-players-table th {
+      color: #eeff00;
+      text-shadow: 0 0 5px #eeff00;
+      font-size: 1.1em;
+    }
+    .recent-players-table tr:hover {
+      background: rgba(255, 255, 0, 0.05);
+      transition: background 0.3s ease;
+    }
+    .blurred-ip {
+      filter: blur(10px);
+      user-select: none;
+      display: inline-block;
+    }
+    .neon-yellow {
+      color: #ffff33;
+      text-shadow: 0 0 5px #ffff33, 0 0 10px #ffff33;
+      animation: pulse 1.5s infinite alternate;
+    }
+    @keyframes pulse {
+      from { text-shadow: 0 0 5px #ffff33; }
+      to { text-shadow: 0 0 20px #ffff33; }
+    }
+    .neon-yellow:hover {
+      animation: flicker 0.3s infinite alternate;
+    }
+    @keyframes flicker {
+      from { opacity: 1; }
+      to { opacity: 0.5; }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Mon Profil - Admin Panel</h1>
   </header>
-
   <div class="container" id="statusContainer">
     <div class="info">
       <p><strong>Nom d'utilisateur :</strong> Novaworldrp</p>
@@ -146,33 +157,34 @@
       <p><strong>Statut :</strong> Connecté <span class="status-dot"></span></p>
       <p><strong>Date de connexion :</strong> <span id="loginDate"></span></p>
     </div>
-
     <div class="info">
       <h2>Statistiques de fréquentation</h2>
-      <canvas id="visitsChart" width="400" height="200"></canvas>
+      <canvas id="visitsChart"></canvas>
     </div>
-
-    <div class="info">
-      <h2>Administrateurs connectés (réel - Discord)</h2>
-      <div class="widget-placeholder">
-        <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="En panne">
-        <p>En panne - Arrive prochainement...</p>
-      </div>
-      <p style="margin-top: 10px; color: #ccc; font-size: 0.9em;">Le système de présence en temps réel sera bientôt disponible avec une interface animée améliorée.</p>
-    </div>
-
     <div class="info">
       <h2>Joueurs connectés (FiveM)</h2>
       <p id="fivemPlayerCount">Chargement...</p>
     </div>
-
+    <div class="recent-players-box">
+      <h2>Derniers joueurs connectés</h2>
+      <table class="recent-players-table">
+        <thead>
+          <tr>
+            <th>Pseudo</th>
+            <th>Adresse IP</th>
+            <th>Steam ID</th>
+            <th># Joueur</th>
+          </tr>
+        </thead>
+        <tbody id="recentPlayersList"></tbody>
+      </table>
+    </div>
     <a href="index.html" class="btn">Retour à l'accueil</a>
   </div>
-
   <script>
     document.getElementById("loginDate").textContent = new Date().toLocaleString("fr-FR");
-  
     let maxToday = parseInt(localStorage.getItem("maxToday")) || 0;
+
     async function updateFiveMCount() {
       try {
         const response = await fetch('https://servers-frontend.fivem.net/api/servers/single/7zva4b');
@@ -180,7 +192,7 @@
         const players = data?.Data?.clients || 0;
         const max = data?.Data?.sv_maxclients || 64;
         const statusContainer = document.getElementById("statusContainer");
-  
+
         if (typeof data?.Data?.clients === "number") {
           document.getElementById("fivemPlayerCount").textContent = `${players} joueurs connectés sur ${max}`;
           statusContainer.classList.remove('offline');
@@ -188,82 +200,78 @@
           document.getElementById("fivemPlayerCount").textContent = 'Serveur OFFLINE';
           statusContainer.classList.add('offline');
         }
-  
+
         if (players > maxToday) {
           maxToday = players;
           localStorage.setItem("maxToday", maxToday);
         }
+
+        const playerList = data?.Data?.players || [];
+        const tableBody = document.getElementById("recentPlayersList");
+        tableBody.innerHTML = "";
+
+        const orderedList = [...playerList];
+
+        orderedList.forEach((player, index) => {
+          const tr = document.createElement("tr");
+          const fakeIP = player.endpoint || "192.168.0.1";
+          const blurredIP = `<span class='blurred-ip'>${fakeIP}</span>`;
+          const steamId = player.identifiers?.find(id => id.includes("steam:")) || "N/A";
+          const order = orderedList.length - index;
+          const isBypepssi = player.name.toLowerCase().includes("bypepssi");
+          const crown = isBypepssi ? '👑' : '';
+          const pseudoClass = isBypepssi ? 'neon-yellow' : '';
+
+          tr.innerHTML = `<td class="${pseudoClass}">${crown} <strong>${player.name}</strong></td><td>${blurredIP}</td><td>${steamId}</td><td>#${order}</td>`;
+          tableBody.insertBefore(tr, tableBody.firstChild);
+        });
+
         updateChart();
-      } catch (error) {
+      } catch (err) {
         document.getElementById("fivemPlayerCount").textContent = 'Serveur OFFLINE';
         document.getElementById("statusContainer").classList.add('offline');
       }
     }
-  
+
     let visitsChart;
+    function updateChart() {
+      const labels = ['6j', '5j', '4j', '3j', 'Avant-hier', 'Hier', "Aujourd'hui"];
+      const dataPoints = [18, 20, 13, 15, 17, 24, maxToday];
 
-function updateChart() {
-  const labels = ['6j', '5j', '4j', '3j', 'Avant-hier', 'Hier', 'Aujourd\'hui'];
-  const dataPoints = [18, 20, 13, 15, 17, 24, maxToday];
-
-  if (visitsChart) visitsChart.destroy();
-
-  const ctx = document.getElementById('visitsChart').getContext('2d');
-  visitsChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Pic de joueurs connectés (FiveM)',
-        data: dataPoints,
-        backgroundColor: 'rgba(238, 255, 0, 0.2)',
-        borderColor: '#eeff00',
-        borderWidth: 2,
-        tension: 0.3
-      }]
-    },
-    options: {
-      indexAxis: 'x',
-      layout: {
-        padding: {
-          left: 0,
-          right: 0
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: 'white'
-          }
+      if (visitsChart) visitsChart.destroy();
+      const ctx = document.getElementById('visitsChart').getContext('2d');
+      visitsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Pic de joueurs connectés (FiveM)',
+            data: dataPoints,
+            backgroundColor: 'rgba(238, 255, 0, 0.2)',
+            borderColor: '#eeff00',
+            borderWidth: 2,
+            tension: 0.3
+          }]
         },
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: 'white'
-          }
-        }
-      },
-      plugins: {
-        legend: {
-          labels: { color: 'white' }
-            }
+        options: {
+          scales: {
+            x: { ticks: { color: 'white' } },
+            y: { beginAtZero: true, ticks: { color: 'white' } }
+          },
+          plugins: {
+            legend: { labels: { color: 'white' } }
           }
         }
       });
     }
-  
+
     updateFiveMCount();
     setInterval(updateFiveMCount, 10000);
   </script>
-  
-
-<script>
-    // Redirige vers l'accueil si l'utilisateur n'est pas connecté
+  <script>
     if (localStorage.getItem("connected") !== "true") {
       window.location.href = "index.html";
     }
   </script>
-  
-
 </body>
 </html>
