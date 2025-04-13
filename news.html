@@ -159,7 +159,7 @@
 <a href="index.html" class="retour-texte">← Retour</a>
 
 <div class="journal" id="journalBox">
-  <img src="https://static.wikia.nocookie.net/failyv/images/0/0a/WeazelNews_Logo.png/revision/latest?cb=20220926112502&path-prefix=fr" alt="Weazel News" class="weazel-logo">
+  <img src="https://cdn.discordapp.com/attachments/1258010825960980662/1360946612725092523/image_1.png?ex=67fcf7cd&is=67fba64d&hm=7cf7f82ffb75c6cd30e1c063b0f825985ed21a8a10dd3b80413287a4375123c9&" alt="Weazel News" class="weazel-logo">
   <h1 id="journalTitle">🚨 Braquage à Los Santos !</h1>
   <div class="content" id="journalContent">
     Un groupe armé a pris d'assaut une banque ce matin. La police est intervenue rapidement mais les suspects ont pris la fuite.
@@ -199,22 +199,35 @@
   
   async function sendWebhook(title) {
     const webhookURL = "https://discord.com/api/webhooks/1360599809366556692/NzGV4sJjG9fAyuL_cg1WkNk-FekwdDHt16emewBeQh6CA6ipvHDcnGPRXqyNR7CHFNLW";
-    const journalLink = "https://aninuy.github.io/Novaworld/news.html"; // 🔗 Remplace par ton lien
-  
+    const journalLink = "https://novaworldroleplay.com/news.html";
+
     const payload = {
-      content: `📰 Un nouveau journal a été publié : **${title}**\n🔗 Lire le journal ici : ${journalLink}`
+      embeds: [
+        {
+          title: `📰 Nouveau journal RP : ${title}`,
+          description: `Cliquez ici pour lire l'article complet !`,
+          url: journalLink,
+          color: 16776960, // Jaune fluo
+          image: {
+            url: "https://cdn.discordapp.com/attachments/1258010825960980662/1360946612725092523/image_1.png?ex=67fcf7cd&is=67fba64d&hm=7cf7f82ffb75c6cd30e1c063b0f825985ed21a8a10dd3b80413287a4375123c9&" // Change en fonction du média réel utilisé
+          },
+          footer: {
+            text: "NovaWorld RP | Weazel News",
+            icon_url: "https://cdn.discordapp.com/attachments/1258010825960980662/1360946612725092523/image_1.png?ex=67fcf7cd&is=67fba64d&hm=7cf7f82ffb75c6cd30e1c063b0f825985ed21a8a10dd3b80413287a4375123c9&"
+          },
+          timestamp: new Date().toISOString()
+        }
+      ]
     };
-  
+
     try {
       await fetch(webhookURL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-    } catch (error) {
-      console.error("Erreur envoi webhook :", error);
+    } catch (err) {
+      console.error("Erreur webhook :", err);
     }
   }
   
