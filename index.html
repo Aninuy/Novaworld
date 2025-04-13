@@ -471,6 +471,18 @@
       box-shadow: 0 0 8px limegreen;
       animation: blinkDot 1.5s infinite;
     }
+
+    .orange-dot {
+  width: 14px;
+  height: 14px;
+  background-color: orange;
+  border-radius: 50%;
+  box-shadow: 0 0 8px orange;
+  animation: blinkDot 1.5s infinite;
+}
+
+
+    
     @keyframes blinkDot {
       0%, 100% {
         opacity: 1;
@@ -862,7 +874,7 @@
         <div class="server-info">
           <div class="online-playercount">
             <span class="label">EN LIGNE</span>
-            <span class="green-dot"></span>
+            <span id="serverStatusDot" class="green-dot"></span>
             <span id="onlineCount">5 / 64</span>
           </div>
           <p><strong>IP DU SERVEUR :</strong>
@@ -995,35 +1007,45 @@
     // Stocke la liste des joueurs connus
     let lastPlayers = [];
 
-function updatePlayerCount() {
+    function updatePlayerCount() {
   fetch('https://servers-frontend.fivem.net/api/servers/single/7zva4b')
     .then(response => response.json())
     .then(data => {
       const players = data?.Data?.clients;
       const maxPlayers = data?.Data?.sv_maxclients;
+      const statusDot = document.getElementById('serverStatusDot');
+      const onlineCount = document.getElementById('onlineCount');
 
       if (typeof players === 'number' && typeof maxPlayers === 'number') {
-        document.getElementById('onlineCount').textContent = `${players} / ${maxPlayers}`;
-
-        // Gestion notifications joueurs connectés
-        const currentPlayers = data?.Data?.players || [];
-        const newPlayers = currentPlayers.filter(p => !lastPlayers.some(lp => lp.name === p.name));
-        if (newPlayers.length > 0) {
-          const lastNew = newPlayers[newPlayers.length - 1];
-          if (lastNew?.name) {
-            notifyConnection(lastNew.name);
-          }
-        }
-        lastPlayers = currentPlayers;
+        onlineCount.textContent = `${players} / ${maxPlayers}`;
+        statusDot.classList.remove('orange-dot');
+        statusDot.classList.add('green-dot');
       } else {
-        document.getElementById('onlineCount').textContent = `Serveur indisponible`;
+        onlineCount.textContent = `Serveur indisponible`;
+        statusDot.classList.remove('green-dot');
+        statusDot.classList.add('orange-dot');
       }
+
+      // Notifications de nouveaux joueurs
+      const currentPlayers = data?.Data?.players || [];
+      const newPlayers = currentPlayers.filter(p => !lastPlayers.some(lp => lp.name === p.name));
+      if (newPlayers.length > 0) {
+        const lastNew = newPlayers[newPlayers.length - 1];
+        if (lastNew?.name) {
+          notifyConnection(lastNew.name);
+        }
+      }
+      lastPlayers = currentPlayers;
     })
     .catch((error) => {
       console.warn('Erreur API FiveM :', error);
+      const statusDot = document.getElementById('serverStatusDot');
       document.getElementById('onlineCount').textContent = `Erreur serveur`;
+      statusDot.classList.remove('green-dot');
+      statusDot.classList.add('orange-dot');
     });
 }
+
 
 // Démarrage auto + toutes les 10 secondes
 updatePlayerCount();
